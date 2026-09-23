@@ -2,1387 +2,784 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Two Guys Stranded — The Official Reader</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Two Guys Stranded</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
+*{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Georgia, "Times New Roman", serif;
-    background:#080b12;
-    color:white;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0b1020;
+  color:white;
 }
 
-/* =========================
-   OPENING
-========================= */
+button{
+  font:inherit;
+  cursor:pointer;
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  background:#2d6cdf;
+  color:white;
+}
+
+button.secondary{
+  background:#27304c;
+}
 
 #intro{
-    position:fixed;
-    inset:0;
-    background:
-        radial-gradient(circle at center,#17243d 0%,#080b12 55%,#020307 100%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-    overflow:hidden;
-    animation:introFade 1s ease 5.5s forwards;
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
+  overflow:hidden;
 }
 
-.intro-title{
-    text-align:center;
-    font-family:Arial,sans-serif;
-    font-weight:900;
-    letter-spacing:8px;
-    font-size:12px;
+#introTitle{
+  font-size:clamp(24px,7vw,86px);
+  font-weight:900;
+  letter-spacing:4px;
+  transform:scale(.05);
+  opacity:0;
+  animation:zoomTitle 2.8s ease-out forwards;
+}
+
+@keyframes zoomTitle{
+  0%{
     transform:scale(.05);
     opacity:0;
-    animation:
-        titleAppear .7s ease forwards,
-        titleZoom 4.2s cubic-bezier(.15,.75,.2,1) .7s forwards;
+  }
+  20%{
+    opacity:1;
+  }
+  100%{
+    transform:scale(1);
+    opacity:1;
+  }
 }
 
-.intro-title .two{
-    display:block;
+#app{
+  display:none;
+  min-height:100vh;
 }
-
-.intro-title .guys{
-    display:block;
-}
-
-.intro-title .stranded{
-    display:block;
-    margin-top:8px;
-}
-
-@keyframes titleAppear{
-    from{
-        opacity:0;
-    }
-    to{
-        opacity:1;
-    }
-}
-
-@keyframes titleZoom{
-    0%{
-        transform:scale(.05);
-        opacity:0;
-    }
-
-    15%{
-        opacity:1;
-    }
-
-    75%{
-        transform:scale(3);
-        opacity:1;
-    }
-
-    100%{
-        transform:scale(6);
-        opacity:1;
-    }
-}
-
-@keyframes introFade{
-    to{
-        opacity:0;
-        visibility:hidden;
-        pointer-events:none;
-    }
-}
-
-/* =========================
-   HEADER
-========================= */
 
 header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:rgba(5,8,14,.94);
-    backdrop-filter:blur(12px);
-    border-bottom:1px solid rgba(255,255,255,.1);
-    padding:16px 25px;
-}
-
-.header-inner{
-    max-width:1200px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
+  padding:22px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  background:#111936;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
 .logo{
-    font-family:Arial,sans-serif;
-    font-weight:900;
-    letter-spacing:3px;
-    font-size:20px;
-}
-
-.logo span{
-    display:block;
-    font-size:10px;
-    letter-spacing:2px;
-    color:#aebbd3;
-    margin-top:3px;
-}
-
-nav{
-    display:flex;
-    gap:10px;
-}
-
-nav button{
-    border:0;
-    background:transparent;
-    color:white;
-    padding:10px 14px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-nav button:hover{
-    background:#182338;
-}
-
-/* =========================
-   HOME
-========================= */
-
-#home{
-    min-height:100vh;
+  font-weight:900;
+  letter-spacing:2px;
 }
 
 .hero{
-    min-height:420px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:70px 20px;
-    background:
-        linear-gradient(rgba(5,9,18,.35),rgba(5,9,18,.9)),
-        radial-gradient(circle at 50% 35%,#27466a,#0a101c 65%);
+  text-align:center;
+  padding:55px 20px 35px;
+  background:linear-gradient(180deg,#16244d,#0b1020);
 }
 
 .hero h1{
-    font-family:Arial,sans-serif;
-    font-size:clamp(42px,8vw,92px);
-    line-height:.95;
-    letter-spacing:5px;
-    margin:0;
-    text-shadow:0 10px 40px rgba(0,0,0,.7);
+  font-size:clamp(34px,6vw,64px);
+  margin:0 0 10px;
 }
 
 .hero p{
-    color:#b9c5d9;
-    font-size:18px;
-    margin-top:25px;
+  color:#b9c3df;
+  margin:0;
 }
 
-.section{
-    max-width:1200px;
-    margin:auto;
-    padding:65px 25px;
+.library{
+  max-width:1200px;
+  margin:auto;
+  padding:35px 5% 70px;
 }
 
-.section-title{
-    font-size:34px;
-    margin:0 0 10px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:24px;
 }
 
-.section-subtitle{
-    color:#99a7bc;
-    margin-bottom:35px;
+.book{
+  background:#151d37;
+  border-radius:16px;
+  padding:14px;
+  box-shadow:0 10px 30px #0005;
+  transition:.2s;
 }
 
-/* =========================
-   BOOK GRID
-========================= */
-
-.book-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:30px;
-}
-
-.book-card{
-    background:linear-gradient(145deg,#111927,#0c111b);
-    border:1px solid rgba(255,255,255,.09);
-    border-radius:16px;
-    padding:18px;
-    transition:.25s;
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
-}
-
-.book-card:hover{
-    transform:translateY(-7px);
-    border-color:rgba(255,255,255,.25);
+.book:hover{
+  transform:translateY(-5px);
 }
 
 .cover{
-    width:100%;
-    aspect-ratio:2/3;
-    border-radius:9px;
-    overflow:hidden;
-    position:relative;
-    background:#151d2b;
-    box-shadow:0 15px 30px rgba(0,0,0,.45);
+  width:100%;
+  aspect-ratio:2/3;
+  border-radius:10px;
+  object-fit:cover;
+  background:linear-gradient(145deg,#314b7d,#111827);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:15px;
+  font-weight:900;
 }
 
 .cover img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:10px;
 }
 
-.cover-art{
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    align-items:center;
-    padding:25px 15px;
-    text-align:center;
-    background:
-        radial-gradient(circle at 50% 30%,#315d80,#0c1625 65%);
+.book h3{
+  margin:13px 2px 5px;
 }
 
-.cover-art .small{
-    font-size:12px;
-    letter-spacing:3px;
-    font-family:Arial,sans-serif;
+.book p{
+  margin:0 2px 12px;
+  color:#aeb9d8;
+  font-size:14px;
 }
 
-.cover-art .big{
-    font-family:Arial,sans-serif;
-    font-size:27px;
-    font-weight:900;
-    letter-spacing:2px;
+.book button{
+  width:100%;
 }
-
-.cover-art .book-number{
-    font-size:14px;
-    letter-spacing:2px;
-}
-
-.cover-5{
-    background:
-        linear-gradient(rgba(5,9,15,.15),rgba(5,9,15,.7)),
-        radial-gradient(circle at 50% 25%,#60718a,#172130 60%,#05080d);
-}
-
-.cover-6{
-    background:
-        linear-gradient(rgba(5,9,15,.1),rgba(5,9,15,.65)),
-        radial-gradient(circle at 50% 25%,#f1a16b,#52667a 35%,#101927 75%);
-}
-
-.book-card h3{
-    margin:18px 0 7px;
-    font-size:21px;
-}
-
-.book-card p{
-    color:#9ba8ba;
-    margin:0 0 17px;
-}
-
-.read-btn{
-    width:100%;
-    border:0;
-    padding:13px;
-    border-radius:9px;
-    background:white;
-    color:#070a10;
-    font-weight:900;
-    cursor:pointer;
-    font-size:15px;
-}
-
-.read-btn:hover{
-    background:#dbe7ff;
-}
-
-/* =========================
-   READER
-========================= */
 
 #reader{
-    display:none;
-    min-height:100vh;
-    background:#f3eee4;
-    color:#171717;
+  display:none;
+  min-height:100vh;
+  background:#f4f1e8;
+  color:#202020;
 }
 
-.reader-top{
-    position:sticky;
-    top:0;
-    z-index:20;
-    background:#11151d;
-    color:white;
-    padding:13px 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
+.readerTop{
+  position:sticky;
+  top:0;
+  background:#171d2d;
+  color:white;
+  padding:14px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  z-index:5;
 }
 
-.reader-top button{
-    border:0;
-    background:#273245;
-    color:white;
-    padding:9px 14px;
-    border-radius:7px;
-    cursor:pointer;
+.readerControls{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
 }
 
-.reader-title{
-    font-weight:bold;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+.progressWrap{
+  height:6px;
+  background:#39435d;
 }
 
-.reader-wrap{
-    max-width:850px;
-    margin:auto;
-    padding:50px 25px 100px;
+#progress{
+  height:100%;
+  width:0;
+  background:#5f8ff7;
+  transition:.2s;
 }
 
-.chapter-title{
-    text-align:center;
-    font-size:38px;
-    margin:10px 0 35px;
+.readerBody{
+  max-width:850px;
+  margin:auto;
+  padding:45px 22px 90px;
 }
 
-.book-text{
-    background:#fffdf8;
-    padding:55px clamp(25px,7vw,80px);
-    box-shadow:0 10px 40px rgba(0,0,0,.12);
-    border-radius:3px;
-    min-height:500px;
+.readerBody h1{
+  text-align:center;
+  font-size:38px;
 }
 
-.book-text p{
-    font-size:19px;
-    line-height:1.9;
-    margin:0 0 25px;
+.readerBody h2{
+  text-align:center;
+  color:#59657c;
 }
 
-.reader-controls{
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-    margin-top:25px;
+#chapterText{
+  font-family:Georgia,serif;
+  font-size:20px;
+  line-height:1.8;
 }
 
-.reader-controls button{
-    border:0;
-    background:#11151d;
-    color:white;
-    padding:13px 20px;
-    border-radius:8px;
-    cursor:pointer;
+#chapterText p{
+  margin:0 0 1.2em;
 }
 
-.reader-controls button:disabled{
-    opacity:.3;
-    cursor:not-allowed;
+.selectWrap{
+  text-align:center;
+  margin:20px 0;
 }
 
-.progress-area{
-    margin-top:25px;
+select{
+  padding:10px;
+  border-radius:8px;
+  font-size:16px;
 }
 
-.progress-bar{
-    height:6px;
-    background:#ccd0d7;
-    border-radius:20px;
-    overflow:hidden;
+.nav{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:35px;
 }
 
-.progress-fill{
-    height:100%;
-    background:#273b5d;
-    width:0%;
-    transition:.3s;
+.nav button{
+  flex:1;
 }
 
-.progress-text{
-    font-family:Arial,sans-serif;
-    font-size:12px;
-    color:#6c7280;
-    margin-top:7px;
-}
-
-/* =========================
-   CHAPTER MENU
-========================= */
-
-.chapter-menu{
-    margin-bottom:30px;
-}
-
-.chapter-menu select{
-    width:100%;
-    padding:13px;
-    border-radius:8px;
-    border:1px solid #bbb;
-    font-size:16px;
-}
-
-/* =========================
-   ABOUT
-========================= */
-
-.about{
-    border-top:1px solid rgba(255,255,255,.08);
-    background:#05070b;
-}
-
-.about p{
-    max-width:750px;
-    color:#9da9ba;
-    line-height:1.8;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:850px){
-
-    .book-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
+.status{
+  text-align:center;
+  color:#667085;
+  font-size:13px;
+  margin-top:12px;
 }
 
 @media(max-width:600px){
+  .readerTop{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 
-    header{
-        padding:13px 15px;
-    }
+  .readerBody h1{
+    font-size:30px;
+  }
 
-    .header-inner{
-        align-items:flex-start;
-    }
-
-    nav button{
-        padding:8px;
-        font-size:12px;
-    }
-
-    .book-grid{
-        grid-template-columns:1fr;
-    }
-
-    .hero{
-        min-height:350px;
-    }
-
-    .book-text{
-        padding:35px 22px;
-    }
-
-    .book-text p{
-        font-size:18px;
-    }
-
-    .reader-controls button{
-        padding:11px;
-    }
-
-}
-
-/* =========================
-   COVER IMAGE NOTICE
-========================= */
-
-.cover-placeholder{
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:20px;
-    color:rgba(255,255,255,.8);
-    font-family:Arial,sans-serif;
-    font-size:13px;
+  #chapterText{
+    font-size:18px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================
-     INTRO
-========================= -->
-
 <div id="intro">
-    <div class="intro-title">
-        <span class="two">TWO</span>
-        <span class="guys">GUYS</span>
-        <span class="stranded">STRANDED</span>
-    </div>
+  <div id="introTitle">TWO GUYS STRANDED</div>
 </div>
 
-
-<!-- =========================
-     MAIN SITE
-========================= -->
-
-<div id="site">
+<div id="app">
 
 <header>
-    <div class="header-inner">
+  <div class="logo">TWO GUYS STRANDED</div>
 
-        <div class="logo">
-            TWO GUYS STRANDED
-            <span>THE OFFICIAL READER</span>
-        </div>
-
-        <nav>
-            <button onclick="goHome()">Home</button>
-            <button onclick="showLibrary()">Books</button>
-        </nav>
-
-    </div>
+  <button class="secondary" onclick="toggleTheme()">
+    Reading Theme
+  </button>
 </header>
 
-
-<main id="home">
-
-    <section class="hero">
-
-        <div>
-            <h1>
-                TWO GUYS<br>
-                STRANDED
-            </h1>
-
-            <p>
-                Enter the story. Read every adventure.
-            </p>
-        </div>
-
-    </section>
-
-
-    <section class="section">
-
-        <h2 class="section-title">
-            The Books
-        </h2>
-
-        <p class="section-subtitle">
-            Read the complete Two Guys Stranded series.
-        </p>
-
-
-        <div class="book-grid" id="bookGrid">
-
-            <!-- BOOK 1 -->
-
-            <article class="book-card">
-
-                <div class="cover">
-
-                    <!-- Replace this with your recreated Book 1 cover -->
-                    <div class="cover-art">
-                        <div class="small">TWO GUYS</div>
-
-                        <div class="big">
-                            STRANDED
-                        </div>
-
-                        <div class="book-number">
-                            BOOK 1
-                        </div>
-                    </div>
-
-                </div>
-
-                <h3>Two Guys Stranded</h3>
-
-                <p>Book 1</p>
-
-                <button class="read-btn"
-                        onclick="openBook(0)">
-                    READ BOOK
-                </button>
-
-            </article>
-
-
-            <!-- BOOK 2 -->
-
-            <article class="book-card">
-
-                <div class="cover">
-
-                    <!-- Replace this with your recreated Book 2 cover -->
-                    <div class="cover-art">
-                        <div class="small">TWO GUYS</div>
-
-                        <div class="big">
-                            STRANDED
-                        </div>
-
-                        <div class="book-number">
-                            BOOK 2
-                        </div>
-                    </div>
-
-                </div>
-
-                <h3>Book 2</h3>
-
-                <p>Book 2</p>
-
-                <button class="read-btn"
-                        onclick="openBook(1)">
-                    READ BOOK
-                </button>
-
-            </article>
-
-
-            <!-- BOOK 3 -->
-
-            <article class="book-card">
-
-                <div class="cover">
-
-                    <!-- Replace this with your recreated Book 3 cover -->
-                    <div class="cover-art">
-                        <div class="small">TWO GUYS</div>
-
-                        <div class="big">
-                            STRANDED
-                        </div>
-
-                        <div class="book-number">
-                            BOOK 3
-                        </div>
-                    </div>
-
-                </div>
-
-                <h3>Book 3</h3>
-
-                <p>Book 3</p>
-
-                <button class="read-btn"
-                        onclick="openBook(2)">
-                    READ BOOK
-                </button>
-
-            </article>
-
-
-            <!-- BOOK 4 -->
-
-            <article class="book-card">
-
-                <div class="cover">
-
-                    <!-- Replace this with your recreated Book 4 cover -->
-                    <div class="cover-art">
-                        <div class="small">TWO GUYS</div>
-
-                        <div class="big">
-                            THE CORE<br>
-                            CRYSTAL
-                        </div>
-
-                        <div class="book-number">
-                            BOOK 4
-                        </div>
-                    </div>
-
-                </div>
-
-                <h3>The Core Crystal</h3>
-
-                <p>Book 4</p>
-
-                <button class="read-btn"
-                        onclick="openBook(3)">
-                    READ BOOK
-                </button>
-
-            </article>
-
-
-            <!-- BOOK 5 -->
-
-            <article class="book-card">
-
-                <div class="cover">
-
-                    <div class="cover-art cover-5">
-
-                        <div class="small">
-                            TWO GUYS STRANDED
-                        </div>
-
-                        <div class="big">
-                            THE FINAL<br>
-                            ODYSSEY
-                        </div>
-
-                        <div class="book-number">
-                            BOOK 5
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <h3>The Final Odyssey</h3>
-
-                <p>Book 5</p>
-
-                <button class="read-btn"
-                        onclick="openBook(4)">
-                    READ BOOK
-                </button>
-
-            </article>
-
-
-            <!-- BOOK 6 -->
-
-            <article class="book-card">
-
-                <div class="cover">
-
-                    <!--
-                    Put the real Book 6 image in the website folder
-                    as:
-
-                    book6.jpg
-
-                    Then change this cover to:
-
-                    <img src="book6.jpg" alt="Two Guys Stranded The Clone">
-                    -->
-
-                    <div class="cover-art cover-6">
-
-                        <div class="small">
-                            TWO GUYS STRANDED
-                        </div>
-
-                        <div class="big">
-                            THE CLONE
-                        </div>
-
-                        <div class="book-number">
-                            BOOK 6
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <h3>The Clone</h3>
-
-                <p>Book 6 — The Final Book</p>
-
-                <button class="read-btn"
-                        onclick="openBook(5)">
-                    READ BOOK
-                </button>
-
-            </article>
-
-        </div>
-
-    </section>
-
-
-    <section class="section about">
-
-        <h2 class="section-title">
-            About Two Guys Stranded
-        </h2>
-
-        <p>
-            Two Guys Stranded follows Paxman and Sam through a series
-            of strange, dangerous and unexpected adventures.
-            Their journey keeps getting bigger as they discover
-            secrets about their family, their enemies and themselves.
-        </p>
-
-        <p>
-            Written by <strong>Paxman Gadd</strong>.
-        </p>
-
-    </section>
-
+<section class="hero">
+  <h1>Two Guys Stranded</h1>
+  <p>Read the adventures of Paxman and Sam.</p>
+</section>
+
+<main class="library">
+  <div class="grid" id="bookGrid"></div>
 </main>
 
-
-<!-- =========================
-     READER
-========================= -->
+</div>
 
 <section id="reader">
 
-    <div class="reader-top">
+  <div class="readerTop">
 
-        <button onclick="closeReader()">
-            ← Library
-        </button>
+    <button class="secondary" onclick="closeReader()">
+      ← Library
+    </button>
 
-        <div class="reader-title" id="readerBookTitle">
-            Two Guys Stranded
-        </div>
+    <strong id="readerBook"></strong>
 
-        <button onclick="goHome()">
-            Home
-        </button>
+    <div class="readerControls">
+      <button class="secondary" onclick="changeFont(-1)">
+        A−
+      </button>
+
+      <button class="secondary" onclick="changeFont(1)">
+        A+
+      </button>
+    </div>
+
+  </div>
+
+  <div class="progressWrap">
+    <div id="progress"></div>
+  </div>
+
+  <div class="readerBody">
+
+    <h1 id="chapterHeading"></h1>
+
+    <div class="selectWrap">
+      <select id="chapterSelect" onchange="goToChapter(this.value)">
+      </select>
+    </div>
+
+    <div id="chapterText"></div>
+
+    <div class="nav">
+
+      <button id="prevBtn" onclick="previousChapter()">
+        ← Previous
+      </button>
+
+      <button id="nextBtn" onclick="nextChapter()">
+        Next →
+      </button>
 
     </div>
 
+    <div class="status" id="status"></div>
 
-    <div class="reader-wrap">
-
-        <div class="chapter-menu">
-
-            <select id="chapterSelect"
-                    onchange="changeChapter(this.value)">
-            </select>
-
-        </div>
-
-
-        <h1 class="chapter-title"
-            id="chapterTitle">
-        </h1>
-
-
-        <article class="book-text"
-                 id="bookText">
-        </article>
-
-
-        <div class="reader-controls">
-
-            <button id="previousButton"
-                    onclick="previousChapter()">
-                ← Previous
-            </button>
-
-            <button id="nextButton"
-                    onclick="nextChapter()">
-                Next →
-            </button>
-
-        </div>
-
-
-        <div class="progress-area">
-
-            <div class="progress-bar">
-                <div class="progress-fill"
-                     id="progressFill">
-                </div>
-            </div>
-
-            <div class="progress-text"
-                 id="progressText">
-            </div>
-
-        </div>
-
-    </div>
+  </div>
 
 </section>
 
-</div>
-
-
 <script>
-
-/* =====================================
-   BOOK DATA
-===================================== */
 
 const books = [
 
-    {
-        title:"Two Guys Stranded",
-        number:"Book 1",
+  {
+    id:1,
+    title:"Book 1",
+    subtitle:"Two Guys Stranded",
+    file:"books/book1.txt",
+    cover:"covers/book1.jpg"
+  },
 
-        chapters:[
-            {
-                title:"Chapter 1",
-                text:[
-                    "Your Book 1 text will go here.",
-                    "This reader is ready for the complete chapter text to be added."
-                ]
-            },
+  {
+    id:2,
+    title:"Book 2",
+    subtitle:"The Hidden Lab",
+    file:"books/book2.txt",
+    cover:"covers/book2.jpg"
+  },
 
-            {
-                title:"Chapter 2",
-                text:[
-                    "Your Book 1 Chapter 2 text will go here."
-                ]
-            }
-        ]
-    },
+  {
+    id:3,
+    title:"Book 3",
+    subtitle:"The Hidden Lab",
+    file:"books/book3.txt",
+    cover:"covers/book3.jpg"
+  },
 
+  {
+    id:4,
+    title:"Book 4",
+    subtitle:"The Core Crystal",
+    file:"books/book4.txt",
+    cover:"covers/book4.jpg"
+  },
 
-    {
-        title:"Book 2",
-        number:"Book 2",
+  {
+    id:5,
+    title:"Book 5",
+    subtitle:"The Final Odyssey",
+    file:"books/book5.txt",
+    cover:"covers/book5.jpg"
+  },
 
-        chapters:[
-            {
-                title:"Chapter 1",
-                text:[
-                    "Your Book 2 text will go here."
-                ]
-            },
-
-            {
-                title:"Chapter 2",
-                text:[
-                    "Your Book 2 Chapter 2 text will go here."
-                ]
-            }
-        ]
-    },
-
-
-    {
-        title:"Book 3",
-        number:"Book 3",
-
-        chapters:[
-            {
-                title:"Chapter 1",
-                text:[
-                    "Your Book 3 text will go here."
-                ]
-            },
-
-            {
-                title:"Chapter 2",
-                text:[
-                    "Your Book 3 Chapter 2 text will go here."
-                ]
-            }
-        ]
-    },
-
-
-    {
-        title:"The Core Crystal",
-        number:"Book 4",
-
-        chapters:[
-            {
-                title:"Chapter 1",
-                text:[
-                    "Your Book 4 text will go here."
-                ]
-            },
-
-            {
-                title:"Chapter 2",
-                text:[
-                    "Your Book 4 Chapter 2 text will go here."
-                ]
-            }
-        ]
-    },
-
-
-    {
-        title:"The Final Odyssey",
-        number:"Book 5",
-
-        chapters:[
-            {
-                title:"Chapter 1 — The Final Journey",
-                text:[
-                    "The Final Journey",
-                    "The complete text of Book 5 will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 2 — The Hidden Fortress",
-                text:[
-                    "The Hidden Fortress",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 3 — The Intruder",
-                text:[
-                    "The Intruder",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 4 — The Escape Plan",
-                text:[
-                    "The Escape Plan",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 5 — The Hunters",
-                text:[
-                    "The Hunters",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 6 — The Underground Railway",
-                text:[
-                    "The Underground Railway",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 7 — The Broken Bridge",
-                text:[
-                    "The Broken Bridge",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 8 — The Black Fortress",
-                text:[
-                    "The Black Fortress",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 9 — The Crystal Vault",
-                text:[
-                    "The Crystal Vault",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 10 — Inside the Vault",
-                text:[
-                    "Inside the Vault",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 11 — The Final Battle",
-                text:[
-                    "The Final Battle",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 12 — The Last Stand",
-                text:[
-                    "The Last Stand",
-                    "The complete chapter text will be placed here."
-                ]
-            },
-
-            {
-                title:"Chapter 13 — The Final Odyssey",
-                text:[
-                    "The Final Odyssey",
-                    "The complete chapter text will be placed here."
-                ]
-            }
-        ]
-    },
-
-
-    {
-        title:"The Clone",
-        number:"Book 6 — The Final Book",
-
-        chapters:[
-            {
-                title:"Chapter 1",
-                text:[
-                    "The Clone",
-                    "The Book 6 text will go here."
-                ]
-            },
-
-            {
-                title:"Chapter 2",
-                text:[
-                    "The next part of The Clone will go here."
-                ]
-            }
-        ]
-    }
+  {
+    id:6,
+    title:"Book 6",
+    subtitle:"The Clone",
+    file:"books/book6.txt",
+    cover:"covers/book6.jpg"
+  }
 
 ];
 
+let loaded={};
 
-/* =====================================
-   CURRENT READER
-===================================== */
+let currentBook=null;
 
-let currentBook = 0;
-let currentChapter = 0;
+let currentChapter=0;
+
+let fontSize=Number(
+  localStorage.getItem("tgs-font") || 20
+);
 
 
-/* =====================================
-   OPEN BOOK
-===================================== */
+function renderLibrary(){
 
-function openBook(bookNumber){
+  const grid=document.getElementById("bookGrid");
 
-    currentBook = bookNumber;
-    currentChapter = 0;
+  grid.innerHTML=books.map(b=>`
 
-    document.getElementById("home").style.display = "none";
-    document.getElementById("reader").style.display = "block";
+    <article class="book">
 
-    document.title =
-        books[currentBook].title +
-        " — Two Guys Stranded";
+      <div class="cover">
 
-    loadBook();
+        <img
+          src="${b.cover}"
+          alt="${b.title} cover"
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+          onerror="
+            this.style.display='none';
+            this.parentElement.innerHTML='<span>${b.title}<br><br>${b.subtitle}</span>'
+          "
+        >
+
+      </div>
+
+      <h3>${b.title}</h3>
+
+      <p>${b.subtitle}</p>
+
+      <button onclick="openBook(${b.id})">
+        Read Book
+      </button>
+
+    </article>
+
+  `).join("");
+
 }
 
 
-/* =====================================
-   LOAD BOOK
-===================================== */
+function parseChapters(text){
 
-function loadBook(){
+  text=text.replace(/\r/g,"");
 
-    const book = books[currentBook];
+  const lines=text.split("\n");
 
-    document.getElementById("readerBookTitle").textContent =
-        book.title + " — " + book.number;
+  const chapters=[];
 
-    const select =
-        document.getElementById("chapterSelect");
+  let current=null;
 
-    select.innerHTML = "";
+  for(const raw of lines){
 
-    book.chapters.forEach((chapter,index)=>{
+    const line=raw.trim();
 
-        const option =
-            document.createElement("option");
+    let match=line.match(
+      /^#?\s*CHAPTER\s+(\d+)\s*(?:[-—:]\s*(.*))?$/i
+    );
 
-        option.value = index;
+    if(!match){
 
-        option.textContent = chapter.title;
-
-        select.appendChild(option);
-
-    });
-
-    select.value = currentChapter;
-
-    loadChapter();
-}
-
-
-/* =====================================
-   LOAD CHAPTER
-===================================== */
-
-function loadChapter(){
-
-    const book = books[currentBook];
-    const chapter = book.chapters[currentChapter];
-
-    document.getElementById("chapterTitle").textContent =
-        chapter.title;
-
-    const textArea =
-        document.getElementById("bookText");
-
-    textArea.innerHTML = "";
-
-    chapter.text.forEach(paragraph=>{
-
-        const p =
-            document.createElement("p");
-
-        p.textContent = paragraph;
-
-        textArea.appendChild(p);
-
-    });
-
-    document.getElementById("chapterSelect").value =
-        currentChapter;
-
-    document.getElementById("previousButton").disabled =
-        currentChapter === 0;
-
-    document.getElementById("nextButton").disabled =
-        currentChapter === book.chapters.length - 1;
-
-    const progress =
-        ((currentChapter + 1) / book.chapters.length) * 100;
-
-    document.getElementById("progressFill").style.width =
-        progress + "%";
-
-    document.getElementById("progressText").textContent =
-        "Chapter " +
-        (currentChapter + 1) +
-        " of " +
-        book.chapters.length;
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-}
-
-
-/* =====================================
-   CHAPTER NAVIGATION
-===================================== */
-
-function nextChapter(){
-
-    const book = books[currentBook];
-
-    if(currentChapter < book.chapters.length - 1){
-
-        currentChapter++;
-
-        loadChapter();
+      match=line.match(
+        /^#?\s*Chapter\s+(\d+)\s*(?:[-—:]\s*(.*))?$/i
+      );
 
     }
+
+    if(match){
+
+      if(current){
+        chapters.push(current);
+      }
+
+      current={
+        number:Number(match[1]),
+        title:(match[2]||"").trim(),
+        lines:[]
+      };
+
+      continue;
+    }
+
+    if(
+      current &&
+      !current.title &&
+      line &&
+      !/^#/.test(line)
+    ){
+
+      current.title=
+        line.replace(/^#+\s*/,"").trim();
+
+      continue;
+    }
+
+    if(current){
+      current.lines.push(raw);
+    }
+
+  }
+
+  if(current){
+    chapters.push(current);
+  }
+
+  return chapters.map(c=>{
+
+    let text=c.lines.join("\n").trim();
+
+    text=text.replace(/^##\s*/gm,"");
+
+    return {
+      ...c,
+      text:text
+    };
+
+  });
+
+}
+
+
+async function openBook(id){
+
+  const book=books.find(x=>x.id===id);
+
+  if(!book)return;
+
+  document.getElementById("app").style.display="none";
+
+  document.getElementById("reader").style.display="block";
+
+  document.getElementById("readerBook").textContent=
+    `${book.title} — ${book.subtitle}`;
+
+  try{
+
+    if(!loaded[id]){
+
+      const response=await fetch(book.file);
+
+      if(!response.ok){
+        throw new Error("File not found");
+      }
+
+      const text=await response.text();
+
+      loaded[id]=parseChapters(text);
+
+    }
+
+    if(!loaded[id].length){
+      throw new Error("No chapters found");
+    }
+
+    currentBook=id;
+
+    const saved=Number(
+      localStorage.getItem(`tgs-book-${id}`) || 0
+    );
+
+    currentChapter=Math.min(
+      saved,
+      loaded[id].length-1
+    );
+
+    buildChapterMenu();
+
+    renderChapter();
+
+  }
+
+  catch(error){
+
+    document.getElementById("chapterHeading").textContent=
+      "Book file not found";
+
+    document.getElementById("chapterText").textContent=
+      `Add ${book.file} to your GitHub repository, then reload the site.`;
+
+    document.getElementById("chapterSelect").innerHTML="";
+
+    document.getElementById("status").textContent="";
+
+  }
+
+}
+
+
+function buildChapterMenu(){
+
+  const select=
+    document.getElementById("chapterSelect");
+
+  select.innerHTML=
+    loaded[currentBook].map((chapter,index)=>`
+
+      <option value="${index}">
+        Chapter ${chapter.number}
+        ${chapter.title ? " — "+chapter.title : ""}
+      </option>
+
+    `).join("");
+
+}
+
+
+function renderChapter(){
+
+  const chapters=loaded[currentBook];
+
+  const chapter=chapters[currentChapter];
+
+  document.getElementById("chapterSelect").value=
+    currentChapter;
+
+  document.getElementById("chapterHeading").textContent=
+    `Chapter ${chapter.number}${chapter.title ? " — "+chapter.title : ""}`;
+
+  const container=
+    document.getElementById("chapterText");
+
+  container.innerHTML="";
+
+  chapter.text
+    .split(/\n\s*\n/)
+    .filter(x=>x.trim())
+    .forEach(block=>{
+
+      const p=document.createElement("p");
+
+      p.textContent=block.trim();
+
+      container.appendChild(p);
+
+    });
+
+  container.style.fontSize=
+    fontSize+"px";
+
+  document.getElementById("prevBtn").disabled=
+    currentChapter===0;
+
+  document.getElementById("nextBtn").disabled=
+    currentChapter===chapters.length-1;
+
+  const percent=
+    ((currentChapter+1)/chapters.length)*100;
+
+  document.getElementById("progress").style.width=
+    percent+"%";
+
+  document.getElementById("status").textContent=
+    `Chapter ${currentChapter+1} of ${chapters.length}`;
+
+  localStorage.setItem(
+    `tgs-book-${currentBook}`,
+    currentChapter
+  );
+
+}
+
+
+function goToChapter(index){
+
+  currentChapter=Number(index);
+
+  renderChapter();
+
+  window.scrollTo(0,0);
+
 }
 
 
 function previousChapter(){
 
-    if(currentChapter > 0){
+  if(currentChapter>0){
 
-        currentChapter--;
+    currentChapter--;
 
-        loadChapter();
+    renderChapter();
 
-    }
+    window.scrollTo(0,0);
+
+  }
+
 }
 
 
-function changeChapter(value){
+function nextChapter(){
 
-    currentChapter =
-        Number(value);
+  if(
+    currentChapter<
+    loaded[currentBook].length-1
+  ){
 
-    loadChapter();
+    currentChapter++;
+
+    renderChapter();
+
+    window.scrollTo(0,0);
+
+  }
+
 }
 
-
-/* =====================================
-   CLOSE READER
-===================================== */
 
 function closeReader(){
 
-    document.getElementById("reader").style.display =
-        "none";
+  document.getElementById("reader").style.display="none";
 
-    document.getElementById("home").style.display =
-        "block";
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-}
-
-
-/* =====================================
-   HOME
-===================================== */
-
-function goHome(){
-
-    closeReader();
+  document.getElementById("app").style.display="block";
 
 }
 
 
-/* =====================================
-   LIBRARY
-===================================== */
+function changeFont(amount){
 
-function showLibrary(){
+  fontSize=Math.max(
+    14,
+    Math.min(30,fontSize+amount)
+  );
 
-    document.getElementById("reader").style.display =
-        "none";
+  localStorage.setItem(
+    "tgs-font",
+    fontSize
+  );
 
-    document.getElementById("home").style.display =
-        "block";
-
-    window.scrollTo({
-        top:document.querySelector(".section").offsetTop - 80,
-        behavior:"smooth"
-    });
+  document.getElementById("chapterText").style.fontSize=
+    fontSize+"px";
 
 }
 
 
-/* =====================================
-   INTRO ACCESSIBILITY
-===================================== */
+function toggleTheme(){
+
+  const reader=
+    document.getElementById("reader");
+
+  if(
+    reader.style.background==="rgb(11, 16, 32)"
+  ){
+
+    reader.style.background="#f4f1e8";
+
+    reader.style.color="#202020";
+
+  }else{
+
+    reader.style.background="#0b1020";
+
+    reader.style.color="#fff";
+
+  }
+
+}
+
+
+renderLibrary();
+
 
 setTimeout(()=>{
 
-    const intro =
-        document.getElementById("intro");
+  document.getElementById("intro").style.display="none";
 
-    intro.style.pointerEvents = "none";
+  document.getElementById("app").style.display="block";
 
-},6000);
+},3200);
 
 </script>
 
