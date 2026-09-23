@@ -1,787 +1,1659 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Two Guys Stranded</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two Guys Stranded — Reading Portal</title>
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#0b1020;
-  color:white;
-}
-
-button{
-  font:inherit;
-  cursor:pointer;
-  border:0;
-  border-radius:10px;
-  padding:10px 14px;
-  background:#2d6cdf;
-  color:white;
-}
-
-button.secondary{
-  background:#27304c;
-}
-
-#intro{
-  position:fixed;
-  inset:0;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:20;
-  overflow:hidden;
-}
-
-#introTitle{
-  font-size:clamp(24px,7vw,86px);
-  font-weight:900;
-  letter-spacing:4px;
-  transform:scale(.05);
-  opacity:0;
-  animation:zoomTitle 2.8s ease-out forwards;
-}
-
-@keyframes zoomTitle{
-  0%{
-    transform:scale(.05);
-    opacity:0;
-  }
-  20%{
-    opacity:1;
-  }
-  100%{
-    transform:scale(1);
-    opacity:1;
-  }
-}
-
-#app{
-  display:none;
-  min-height:100vh;
-}
-
-header{
-  padding:22px 5%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-  background:#111936;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.logo{
-  font-weight:900;
-  letter-spacing:2px;
-}
-
-.hero{
-  text-align:center;
-  padding:55px 20px 35px;
-  background:linear-gradient(180deg,#16244d,#0b1020);
-}
-
-.hero h1{
-  font-size:clamp(34px,6vw,64px);
-  margin:0 0 10px;
-}
-
-.hero p{
-  color:#b9c3df;
-  margin:0;
-}
-
-.library{
-  max-width:1200px;
-  margin:auto;
-  padding:35px 5% 70px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-  gap:24px;
-}
-
-.book{
-  background:#151d37;
-  border-radius:16px;
-  padding:14px;
-  box-shadow:0 10px 30px #0005;
-  transition:.2s;
-}
-
-.book:hover{
-  transform:translateY(-5px);
-}
-
-.cover{
-  width:100%;
-  aspect-ratio:2/3;
-  border-radius:10px;
-  object-fit:cover;
-  background:linear-gradient(145deg,#314b7d,#111827);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:15px;
-  font-weight:900;
-}
-
-.cover img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:10px;
-}
-
-.book h3{
-  margin:13px 2px 5px;
-}
-
-.book p{
-  margin:0 2px 12px;
-  color:#aeb9d8;
-  font-size:14px;
-}
-
-.book button{
-  width:100%;
-}
-
-#reader{
-  display:none;
-  min-height:100vh;
-  background:#f4f1e8;
-  color:#202020;
-}
-
-.readerTop{
-  position:sticky;
-  top:0;
-  background:#171d2d;
-  color:white;
-  padding:14px 5%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  z-index:5;
-}
-
-.readerControls{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-}
-
-.progressWrap{
-  height:6px;
-  background:#39435d;
-}
-
-#progress{
-  height:100%;
-  width:0;
-  background:#5f8ff7;
-  transition:.2s;
-}
-
-.readerBody{
-  max-width:850px;
-  margin:auto;
-  padding:45px 22px 90px;
-}
-
-.readerBody h1{
-  text-align:center;
-  font-size:38px;
-}
-
-.readerBody h2{
-  text-align:center;
-  color:#59657c;
-}
-
-#chapterText{
-  font-family:Georgia,serif;
-  font-size:20px;
-  line-height:1.8;
-}
-
-#chapterText p{
-  margin:0 0 1.2em;
-}
-
-.selectWrap{
-  text-align:center;
-  margin:20px 0;
-}
-
-select{
-  padding:10px;
-  border-radius:8px;
-  font-size:16px;
-}
-
-.nav{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  margin-top:35px;
-}
-
-.nav button{
-  flex:1;
-}
-
-.status{
-  text-align:center;
-  color:#667085;
-  font-size:13px;
-  margin-top:12px;
-}
-
-@media(max-width:600px){
-  .readerTop{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .readerBody h1{
-    font-size:30px;
-  }
-
-  #chapterText{
-    font-size:18px;
-  }
-}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#07101d;color:#fff}button,select{font:inherit}button{cursor:pointer;border:0}
+#intro{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden;animation:introFade 1s 5.8s forwards;pointer-events:none}
+#introTitle{font-weight:1000;letter-spacing:.08em;font-size:clamp(28px,7vw,90px);transform:scale(.03);opacity:0;animation:logoZoom 5.5s cubic-bezier(.15,.7,.12,1) forwards}
+#introScene{position:absolute;inset:0;opacity:0;animation:sceneIn 1.8s 3.7s forwards;background:linear-gradient(#09294c 0 34%,#e58d43 55%,#164f74 56%,#082235 100%)}
+#introScene .sun{position:absolute;width:110px;height:110px;border-radius:50%;background:#ffd77a;left:50%;top:46%;transform:translate(-50%,-50%);box-shadow:0 0 70px 30px #ffd77a88}
+#introScene .sea{position:absolute;left:0;right:0;bottom:0;height:47%;background:repeating-linear-gradient(0deg,#0b3855 0 9px,#145b79 10px 18px,#0a3049 19px 25px);opacity:.95}
+#introScene .wreck{position:absolute;left:50%;bottom:22%;width:230px;height:60px;transform:translateX(-50%) rotate(-6deg);background:#3a2418;border-radius:8px 30px 12px 4px;box-shadow:0 12px 20px #0008}
+#introScene .mast{position:absolute;width:8px;height:150px;background:#2b1b13;left:52%;bottom:25%;transform:rotate(10deg);transform-origin:bottom}
+#introScene .rope{position:absolute;width:2px;height:125px;background:#18130f;left:53%;bottom:27%;transform:rotate(-27deg);transform-origin:bottom}
+#introScene .titleOnScene{position:absolute;top:12%;left:0;right:0;text-align:center;font-size:clamp(25px,5vw,60px);font-weight:1000;letter-spacing:.08em;text-shadow:0 4px 20px #000}
+@keyframes logoZoom{0%{transform:scale(.03);opacity:0}10%{opacity:1}75%{transform:scale(1.35);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes sceneIn{to{opacity:1}}@keyframes introFade{to{opacity:0;visibility:hidden}}
+header{position:sticky;top:0;z-index:10;background:#07101de8;backdrop-filter:blur(12px);border-bottom:1px solid #ffffff18;padding:14px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-weight:1000;letter-spacing:.08em;font-size:18px}.headerBtns{display:flex;gap:8px;flex-wrap:wrap}
+button,.btn{background:#2d6cdf;color:white;padding:10px 15px;border-radius:10px;font-weight:800}button:hover,.btn:hover{filter:brightness(1.12)}.secondary{background:#18253d;border:1px solid #496082}
+.hero{min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 20px;background:radial-gradient(circle at 50% 80%,#184e72 0,#0b2138 38%,#07101d 75%)}
+.hero h1{font-size:clamp(42px,8vw,90px);margin:0 0 12px;text-shadow:0 8px 30px #000}.hero p{color:#b9c7dc;font-size:18px;margin:0}
+.library{max-width:1250px;margin:auto;padding:35px 5% 80px}.sectionTitle{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:22px}.sectionTitle h2{margin:0;font-size:30px}.sectionTitle span{color:#9eb0cb}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:22px}.book{background:#101b2e;border:1px solid #ffffff12;border-radius:18px;padding:14px;box-shadow:0 15px 35px #0005;transition:.2s}.book:hover{transform:translateY(-5px)}
+.cover{aspect-ratio:2/3;border-radius:12px;overflow:hidden;position:relative;padding:18px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:inset 0 0 0 1px #fff2}
+.cover:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 78%,#ffd77a66,transparent 22%),linear-gradient(160deg,#0a2946,#0a1220 60%,#05080d)}
+.cover>*{position:relative;z-index:1}.coverTitle{font-size:19px;font-weight:1000;letter-spacing:.04em;text-shadow:0 3px 10px #000}.coverBook{font-weight:900;font-size:15px;margin-top:8px}.coverSub{font-size:24px;font-weight:1000;line-height:1.05;margin-top:auto;text-shadow:0 3px 10px #000}.coverAuthor{font-size:12px;font-weight:900;letter-spacing:.1em;margin-top:12px}
+.cover.b1:after{content:"⚓";position:absolute;left:50%;bottom:24%;transform:translateX(-50%);font-size:52px;filter:drop-shadow(0 0 12px #000)}
+.cover.b2:after{content:"💎";position:absolute;left:50%;bottom:26%;transform:translateX(-50%);font-size:55px;filter:drop-shadow(0 0 16px #50eaff)}
+.cover.b3:after{content:"⌂";position:absolute;left:50%;bottom:25%;transform:translateX(-50%);font-size:80px;color:#d8a96b;text-shadow:0 0 15px #000}
+.cover.b4:after{content:"◆";position:absolute;left:50%;bottom:24%;transform:translateX(-50%);font-size:72px;color:#54d9ff;text-shadow:0 0 30px #54d9ff}
+.cover.b5:after{content:"⛵";position:absolute;left:50%;bottom:22%;transform:translateX(-50%);font-size:62px}
+.cover.b6:after{content:"◉";position:absolute;left:50%;bottom:22%;transform:translateX(-50%);font-size:72px;color:#75e7ff;text-shadow:0 0 30px #75e7ff}
+.book h3{margin:14px 2px 5px;font-size:20px}.book p{margin:0 2px 12px;color:#aebbd0;font-size:14px;min-height:36px}.book .read{width:100%}
+#reader{display:none;min-height:100vh;background:#f4f1e8;color:#202020}.readerTop{position:sticky;top:0;background:#111b2d;color:white;padding:12px 5%;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:5}.readerControls{display:flex;gap:7px;flex-wrap:wrap}.progressWrap{height:6px;background:#303b50}#progress{height:100%;width:0;background:#4f83ff;transition:.2s}.readerBody{max-width:860px;margin:auto;padding:42px 22px 90px}.readerBody h1{text-align:center;font-size:38px;margin:0 0 8px}.readerBody h2{text-align:center;color:#69758a;font-weight:600;margin-top:0}#chapterText{font-family:Georgia,'Times New Roman',serif;font-size:20px;line-height:1.85;white-space:pre-wrap}.selectWrap{text-align:center;margin:22px 0}select{padding:10px 12px;border-radius:8px;border:1px solid #b9c0ca;max-width:100%}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:38px}.nav button{flex:1}.status{text-align:center;color:#737b88;font-size:13px;margin-top:12px}
+.notice{padding:18px;background:#fff4cf;border:1px solid #e5c866;border-radius:12px;color:#513f0b;font-family:Arial,sans-serif;line-height:1.5;margin:20px 0}
+.about{max-width:1250px;margin:auto;padding:0 5% 70px;color:#aebbd0}.about strong{color:#fff}
+@media(max-width:650px){header{align-items:flex-start;flex-direction:column}.readerTop{align-items:flex-start;flex-direction:column}.readerBody h1{font-size:30px}#chapterText{font-size:18px}.nav{flex-direction:column}}
 </style>
 </head>
-
 <body>
-
-<div id="intro">
-  <div id="introTitle">TWO GUYS STRANDED</div>
-</div>
-
+<div id="intro"><div id="introScene"><div class="titleOnScene">TWO GUYS STRANDED</div><div class="sun"></div><div class="sea"></div><div class="wreck"></div><div class="mast"></div><div class="rope"></div></div><div id="introTitle">TWO GUYS STRANDED</div></div>
 <div id="app">
-
-<header>
-  <div class="logo">TWO GUYS STRANDED</div>
-
-  <button class="secondary" onclick="toggleTheme()">
-    Reading Theme
-  </button>
-</header>
-
-<section class="hero">
-  <h1>Two Guys Stranded</h1>
-  <p>Read the adventures of Paxman and Sam.</p>
-</section>
-
-<main class="library">
-  <div class="grid" id="bookGrid"></div>
-</main>
-
+<header><div class="logo">TWO GUYS STRANDED</div><div class="headerBtns"><button class="secondary" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">About</button></div></header>
+<section class="hero"><h1>Two Guys Stranded</h1><p>Six books. One incredible journey.</p></section>
+<main class="library"><div class="sectionTitle"><h2>Your Books</h2><span>Choose a book to read</span></div><div class="grid" id="bookGrid"></div></main>
+<section class="about"><h2>About the Series</h2><p><strong>Two Guys Stranded</strong> follows Paxman, Sam, and Nash through their adventures, mysteries, powers, crystals, clones, and the final chapter of their journey.</p></section>
 </div>
-
-<section id="reader">
-
-  <div class="readerTop">
-
-    <button class="secondary" onclick="closeReader()">
-      ← Library
-    </button>
-
-    <strong id="readerBook"></strong>
-
-    <div class="readerControls">
-      <button class="secondary" onclick="changeFont(-1)">
-        A−
-      </button>
-
-      <button class="secondary" onclick="changeFont(1)">
-        A+
-      </button>
-    </div>
-
-  </div>
-
-  <div class="progressWrap">
-    <div id="progress"></div>
-  </div>
-
-  <div class="readerBody">
-
-    <h1 id="chapterHeading"></h1>
-
-    <div class="selectWrap">
-      <select id="chapterSelect" onchange="goToChapter(this.value)">
-      </select>
-    </div>
-
-    <div id="chapterText"></div>
-
-    <div class="nav">
-
-      <button id="prevBtn" onclick="previousChapter()">
-        ← Previous
-      </button>
-
-      <button id="nextBtn" onclick="nextChapter()">
-        Next →
-      </button>
-
-    </div>
-
-    <div class="status" id="status"></div>
-
-  </div>
-
-</section>
-
+<section id="reader"><div class="readerTop"><button class="secondary" onclick="closeReader()">← Library</button><strong id="readerBook"></strong><div class="readerControls"><button class="secondary" onclick="changeFont(-1)">A−</button><button class="secondary" onclick="changeFont(1)">A+</button></div></div><div class="progressWrap"><div id="progress"></div></div><div class="readerBody"><h1 id="chapterHeading"></h1><h2 id="chapterSub"></h2><div class="selectWrap"><select id="chapterSelect" onchange="goToChapter(Number(this.value))"></select></div><div id="chapterText"></div><div class="nav"><button id="prevBtn" onclick="previousChapter()">← Previous</button><button id="nextBtn" onclick="nextChapter()">Next →</button></div><div class="status" id="status"></div></div></section>
 <script>
+const books=[{"id": 1, "tag": "Book 1", "title": "Two Guys Stranded", "chapters": ["The Orphanage", "The Great Escape", "Shipwreck", "Bear Trouble", "The Electric Eel", "Hunting Trouble", "The Mysterious House", "The Jailbreak", "A New Home", "Rich Overnight", "Remembering the Past", "The Birthday Surprise", "Strange Powers", "The Missing Diamond", "The Hologram", "The Final Chase", "A New Beginning"], "available": false}, {"id": 2, "tag": "Book 2", "title": "Coming Back Home", "chapters": ["The Hologram Is Back", "The Journey Home", "The Stranger", "The Cabin", "Footsteps Upstairs", "The Chase", "Dad's Old House", "The Secret Basement", "Dad's Journal", "The Trap", "The Final Escape", "The Showdown", "Home at Last"], "available": false}, {"id": 3, "tag": "Book 3", "title": "The Hidden Lab", "chapters": ["The Hidden Door", "Someone Is Here", "The Truth Comes Out", "Not the Whole Truth", "Forgiveness", "The Fight Begins", "The Army of Spies", "The Escape Tunnel", "The Chase", "The Safehouse", "The Final Stand", "The Leader", "A New Mission"], "available": false}, {"id": 4, "tag": "Book 4", "title": "The Core Crystal", "chapters": ["The Journal", "The Stolen Crystal", "The Chase Begins", "The Underground River", "The Waterfall", "The Footprints", "The Stranger", "The Shadow Camp", "Into the Camp", "The Escape", "The Director Returns", "The Battle", "Home Again"], "available": false}, {"id": 5, "tag": "Book 5", "title": "The Final Odyssey", "chapters": [{"n": 2, "title": "The Hidden Fortress", "body": "The helicopter disappeared into the clouds.
 
-const books = [
+Silence returned to the forest.
 
-  {
-    id:1,
-    title:"Book 1",
-    subtitle:"Two Guys Stranded",
-    file:"books/book1.txt",
-    cover:"covers/book1.jpg"
-  },
+Only the buzzing of the remaining drones could be heard.
 
-  {
-    id:2,
-    title:"Book 2",
-    subtitle:"The Hidden Lab",
-    file:"books/book2.txt",
-    cover:"covers/book2.jpg"
-  },
+Joseph looked around.
 
-  {
-    id:3,
-    title:"Book 3",
-    subtitle:"The Hidden Lab",
-    file:"books/book3.txt",
-    cover:"covers/book3.jpg"
-  },
+\"We need to keep moving.\"
 
-  {
-    id:4,
-    title:"Book 4",
-    subtitle:"The Core Crystal",
-    file:"books/book4.txt",
-    cover:"covers/book4.jpg"
-  },
+The family hurried deeper into the woods.
 
-  {
-    id:5,
-    title:"Book 5",
-    subtitle:"The Final Odyssey",
-    file:"books/book5.txt",
-    cover:"covers/book5.jpg"
-  },
+After nearly an hour of hiking, the trees became thinner.
 
-  {
-    id:6,
-    title:"Book 6",
-    subtitle:"The Clone",
-    file:"books/book6.txt",
-    cover:"covers/book6.jpg"
-  }
+Ahead stood a massive stone cliff.
 
-];
+Sam looked around.
 
-let loaded={};
+\"There's nothing here.\"
 
-let currentBook=null;
+Joseph smiled.
 
-let currentChapter=0;
+\"There is.\"
 
-let fontSize=Number(
-  localStorage.getItem("tgs-font") || 20
-);
+He walked to a large boulder and brushed away years of moss.
 
+Hidden beneath it was a small keypad.
 
-function renderLibrary(){
+Paxman stared at it.
 
-  const grid=document.getElementById("bookGrid");
+\"I never knew this was here.\"
 
-  grid.innerHTML=books.map(b=>`
+\"I hoped you'd never need to.\"
 
-    <article class="book">
+Joseph entered a long code.
 
-      <div class="cover">
+The mountain began to shake.
 
-        <img
-          src="${b.cover}"
-          alt="${b.title} cover"
+Deep inside the cliff...
 
-          onerror="
-            this.style.display='none';
-            this.parentElement.innerHTML='<span>${b.title}<br><br>${b.subtitle}</span>'
-          "
-        >
+Ancient gears turned.
 
-      </div>
+A huge stone doorway slowly opened.
 
-      <h3>${b.title}</h3>
+Cool air drifted out.
 
-      <p>${b.subtitle}</p>
+The doorway revealed a giant underground fortress.
 
-      <button onclick="openBook(${b.id})">
-        Read Book
-      </button>
+Rows of lights switched on automatically.
 
-    </article>
+The room stretched farther than the brothers could see.
 
-  `).join("");
+Vehicles filled one side of the fortress.
 
-}
+Computers covered another.
 
+Training rooms stood behind thick glass walls.
 
-function parseChapters(text){
+Sam looked around in amazement.
 
-  text=text.replace(/\r/g,"");
+\"You built all of this?\"
 
-  const lines=text.split("\n");
+Joseph laughed.
 
-  const chapters=[];
+\"No.\"
 
-  let current=null;
+\"My grandfather started it.\"
 
-  for(const raw of lines){
+\"My father expanded it.\"
 
-    const line=raw.trim();
+\"I finished it.\"
 
-    let match=line.match(
-      /^#?\s*CHAPTER\s+(\d+)\s*(?:[-—:]\s*(.*))?$/i
-    );
+Nash barked as his footsteps echoed through the enormous room.
 
-    if(!match){
+Paxman walked toward a giant map hanging on the wall.
 
-      match=line.match(
-        /^#?\s*Chapter\s+(\d+)\s*(?:[-—:]\s*(.*))?$/i
-      );
+Five crystal symbols were marked across the world.
 
-    }
+Two glowed blue.
 
-    if(match){
+Three glowed red.
 
-      if(current){
-        chapters.push(current);
-      }
+Joseph joined him.
 
-      current={
-        number:Number(match[1]),
-        title:(match[2]||"").trim(),
-        lines:[]
-      };
+\"The blue ones are the crystals we recovered.\"
 
-      continue;
-    }
+Paxman pointed to one of the red symbols.
 
-    if(
-      current &&
-      !current.title &&
-      line &&
-      !/^#/.test(line)
-    ){
+\"The Light Crystal.\"
 
-      current.title=
-        line.replace(/^#+\s*/,"").trim();
+Joseph nodded.
 
-      continue;
-    }
+\"The strongest one.\"
 
-    if(current){
-      current.lines.push(raw);
-    }
+\"It controls the energy inside every other Core Crystal.\"
 
-  }
+\"If Victor gets it...\"
 
-  if(current){
-    chapters.push(current);
-  }
+\"...he'll become more powerful than anyone in history.\"
 
-  return chapters.map(c=>{
+Sam folded his arms.
 
-    let text=c.lines.join("\n").trim();
+\"So what's the plan?\"
 
-    text=text.replace(/^##\s*/gm,"");
+Joseph walked to another computer.
 
-    return {
-      ...c,
-      text:text
-    };
+A satellite image appeared.
 
-  });
+Victor's headquarters sat on a rocky island surrounded by cliffs.
 
-}
+Heavy walls protected it.
 
+Guard towers stood on every corner.
 
-async function openBook(id){
+Ships patrolled the water.
 
-  const book=books.find(x=>x.id===id);
+Helicopters circled overhead.
 
-  if(!book)return;
+Paxman swallowed.
 
-  document.getElementById("app").style.display="none";
+\"How are we supposed to get in there?\"
 
-  document.getElementById("reader").style.display="block";
+Joseph smiled.
 
-  document.getElementById("readerBook").textContent=
-    `${book.title} — ${book.subtitle}`;
+\"We're not.\"
 
-  try{
+He pressed another button.
 
-    if(!loaded[id]){
+The map zoomed out.
 
-      const response=await fetch(book.file);
+A narrow tunnel appeared beneath the island.
 
-      if(!response.ok){
-        throw new Error("File not found");
-      }
+\"It leads straight into the fortress.\"
 
-      const text=await response.text();
+Sam grinned.
 
-      loaded[id]=parseChapters(text);
+\"So we're sneaking in.\"
 
-    }
+\"Exactly.\"
 
-    if(!loaded[id].length){
-      throw new Error("No chapters found");
-    }
+Suddenly...
 
-    currentBook=id;
+One of the computers flashed bright red.
 
-    const saved=Number(
-      localStorage.getItem(`tgs-book-${id}`) || 0
-    );
+WARNING.
 
-    currentChapter=Math.min(
-      saved,
-      loaded[id].length-1
-    );
+UNAUTHORIZED ACCESS.
 
-    buildChapterMenu();
+Joseph's smile disappeared.
 
-    renderChapter();
+Someone...
 
-  }
+Was already inside the fortress.
 
-  catch(error){
+The lights flickered.
 
-    document.getElementById("chapterHeading").textContent=
-      "Book file not found";
+A metal door slammed shut somewhere in the distance.
 
-    document.getElementById("chapterText").textContent=
-      `Add ${book.file} to your GitHub repository, then reload the site.`;
+Footsteps echoed through the empty halls.
 
-    document.getElementById("chapterSelect").innerHTML="";
+Nash began growling.
 
-    document.getElementById("status").textContent="";
+Paxman slowly turned toward the darkness.
 
-  }
+Someone else had found the hidden fortress."}, {"n": 3, "title": "The Intruder", "body": "The footsteps echoed through the fortress.
 
-}
+Slow.
 
+Steady.
 
-function buildChapterMenu(){
+Closer with every second.
 
-  const select=
-    document.getElementById("chapterSelect");
+Nash growled, the fur on his back standing up.
 
-  select.innerHTML=
-    loaded[currentBook].map((chapter,index)=>`
+Joseph switched off the main lights.
 
-      <option value="${index}">
-        Chapter ${chapter.number}
-        ${chapter.title ? " — "+chapter.title : ""}
-      </option>
+The room became almost completely dark.
 
-    `).join("");
+Only the emergency lights glowed along the walls.
 
-}
+\"No one move,\" Joseph whispered.
 
+Paxman slowly took a deep breath.
 
-function renderChapter(){
+His hands felt cold.
 
-  const chapters=loaded[currentBook];
+Sam quietly stepped in front of Joseph.
 
-  const chapter=chapters[currentChapter];
+\"If it's Victor...\"
 
-  document.getElementById("chapterSelect").value=
-    currentChapter;
+\"We'll stop him.\"
 
-  document.getElementById("chapterHeading").textContent=
-    `Chapter ${chapter.number}${chapter.title ? " — "+chapter.title : ""}`;
+The footsteps stopped.
 
-  const container=
-    document.getElementById("chapterText");
+Silence filled the fortress.
 
-  container.innerHTML="";
+Then...
 
-  chapter.text
-    .split(/\n\s*\n/)
-    .filter(x=>x.trim())
-    .forEach(block=>{
+BEEP.
 
-      const p=document.createElement("p");
+One of the computer screens turned on by itself.
 
-      p.textContent=block.trim();
+Everyone looked.
 
-      container.appendChild(p);
+Words slowly appeared across the monitor.
 
-    });
+HELLO, JOSEPH.
 
-  container.style.fontSize=
-    fontSize+"px";
+Joseph's face lost all color.
 
-  document.getElementById("prevBtn").disabled=
-    currentChapter===0;
+\"No...\"
 
-  document.getElementById("nextBtn").disabled=
-    currentChapter===chapters.length-1;
+The message disappeared.
 
-  const percent=
-    ((currentChapter+1)/chapters.length)*100;
+Another appeared.
 
-  document.getElementById("progress").style.width=
-    percent+"%";
+I KNOW YOU'RE HERE.
 
-  document.getElementById("status").textContent=
-    `Chapter ${currentChapter+1} of ${chapters.length}`;
+Suddenly every computer switched on.
 
-  localStorage.setItem(
-    `tgs-book-${currentBook}`,
-    currentChapter
-  );
+Screen after screen flashed with the same message.
 
-}
+YOU CAN'T HIDE.
 
+The lights flickered.
 
-function goToChapter(index){
+A loud alarm echoed through the fortress.
 
-  currentChapter=Number(index);
+WARNING.
 
-  renderChapter();
+SECURITY BREACH.
 
-  window.scrollTo(0,0);
+WARNING.
 
-}
+SECURITY BREACH.
 
+Joseph hurried to the control panel.
 
-function previousChapter(){
+\"They're hacking the system!\"
 
-  if(currentChapter>0){
+Sam looked toward the hallway.
 
-    currentChapter--;
+\"Can they open the doors?\"
 
-    renderChapter();
+Joseph didn't answer.
 
-    window.scrollTo(0,0);
+Instead, he began typing as fast as he could.
 
-  }
+A loading bar appeared on the screen.
 
-}
+12%
 
+18%
 
-function nextChapter(){
+25%
 
-  if(
-    currentChapter<
-    loaded[currentBook].length-1
-  ){
+\"Hurry!\" Paxman shouted.
 
-    currentChapter++;
+A loud metallic CLANG echoed down the hallway.
 
-    renderChapter();
+Someone was trying to force open the main security door.
 
-    window.scrollTo(0,0);
+Nash barked.
 
-  }
+The banging grew louder.
 
-}
+CLANG!
 
+CLANG!
 
-function closeReader(){
+CLANG!
 
-  document.getElementById("reader").style.display="none";
+The steel door bent inward.
 
-  document.getElementById("app").style.display="block";
+\"It won't hold much longer!\" Sam yelled.
 
-}
+Joseph reached 87%.
 
+\"Almost...\"
 
-function changeFont(amount){
+The door suddenly burst open.
 
-  fontSize=Math.max(
-    14,
-    Math.min(30,fontSize+amount)
-  );
+A shadow stepped inside.
 
-  localStorage.setItem(
-    "tgs-font",
-    fontSize
-  );
+Everyone froze.
 
-  document.getElementById("chapterText").style.fontSize=
-    fontSize+"px";
+The figure wore black clothes from head to toe.
 
-}
+Its face was hidden behind a dark mask.
 
+The stranger slowly raised both hands.
 
-function toggleTheme(){
+\"I'm not your enemy.\"
 
-  const reader=
-    document.getElementById("reader");
+Paxman didn't lower his guard.
 
-  if(
-    reader.style.background==="rgb(11, 16, 32)"
-  ){
+\"Then who are you?\"
 
-    reader.style.background="#f4f1e8";
+The stranger reached up and removed the mask.
 
-    reader.style.color="#202020";
+A teenage girl with dark hair looked back at them.
 
-  }else{
+\"My name is Ava,\" she said.
 
-    reader.style.background="#0b1020";
+\"I escaped from Victor's fortress.\"
 
-    reader.style.color="#fff";
+Joseph stared at her.
 
-  }
+\"You escaped?\"
 
-}
+She nodded.
 
+\"He has the Light Crystal.\"
 
+The room became silent.
+
+\"And he's already looking for the last two.\"
+
+Joseph slowly looked at Paxman and Sam.
+
+\"We're running out of time.\"
+
+Outside, thunder rolled across the mountains.
+
+The final race for the Core Crystals had begun."}, {"n": 4, "title": "The Escape Plan", "body": "No one spoke for several seconds.
+
+Joseph finally broke the silence.
+
+\"If Victor has the Light Crystal, he's farther ahead than I thought.\"
+
+Ava nodded.
+
+\"He doesn't have full control over it yet.\"
+
+Sam looked at her.
+
+\"How do you know?\"
+
+\"I helped build the machine he's using.\"
+
+Everyone stared at her.
+
+Paxman took a step back.
+
+\"You worked for Victor?\"
+
+Ava lowered her head.
+
+\"I didn't have a choice.\"
+
+\"He captured my family years ago.\"
+
+\"If I refused to help him, he threatened to hurt them.\"
+
+Joseph's expression softened.
+
+\"I'm sorry.\"
+
+Ava looked up.
+
+\"I escaped three days ago.\"
+
+\"I came here because you're the only people who can stop him.\"
+
+Joseph walked over to the giant map.
+
+He pointed to Victor's fortress.
+
+\"The Light Crystal is here.\"
+
+Ava shook her head.
+
+\"Not anymore.\"
+
+Everyone looked at her.
+
+\"Victor moved it this morning.\"
+
+She reached into her pocket and unfolded a small map.
+
+\"I stole this before I escaped.\"
+
+She spread it across the table.
+
+A hidden island sat in the middle of the ocean.
+
+Surrounding it were sharp cliffs.
+
+Only one narrow passage led inside.
+
+\"What is this place?\" Sam asked.
+
+\"The Black Fortress,\" Ava answered.
+
+\"It's Victor's headquarters.\"
+
+Paxman studied the drawing.
+
+Guard towers.
+
+Searchlights.
+
+A massive steel gate.
+
+\"This place looks impossible to get into.\"
+
+Ava smiled.
+
+\"That's exactly what Victor wants everyone to think.\"
+
+She pointed beneath the island.
+
+\"There's an old mining tunnel.\"
+
+\"He doesn't know it still exists.\"
+
+Joseph's eyes widened.
+
+\"It leads underneath the fortress.\"
+
+Ava nodded.
+
+\"If we can get through the tunnel, we'll be inside without anyone seeing us.\"
+
+Sam grinned.
+
+\"So we have a way in.\"
+
+Joseph smiled for the first time that day.
+
+\"We finally have a chance.\"
+
+Just then...
+
+A loud explosion echoed outside the mountain.
+
+The fortress shook violently.
+
+Dust fell from the ceiling.
+
+Nash barked.
+
+Joseph hurried to a security camera.
+
+On the screen...
+
+Smoke rose from the forest outside.
+
+Black helicopters circled overhead.
+
+Victor's army had found the mountain.
+
+\"They're here,\" Joseph whispered.
+
+The lights suddenly went out.
+
+Darkness filled the fortress.
+
+Only the emergency lights remained.
+
+A mechanical voice echoed through the halls.
+
+\"Backup power activated.\"
+
+Then...
+
+The sound of heavy metal doors unlocking echoed throughout the base.
+
+Ava's eyes grew wide.
+
+\"Oh no...\"
+
+\"What?\" Paxman asked.
+
+She looked toward the dark hallway.
+
+\"He released the Hunters.\"
+
+Low growls echoed through the fortress.
+
+Something was running through the tunnels toward them."}, {"n": 5, "title": "The Hunters", "body": "The growling became louder.
+
+It echoed through every hallway of the fortress.
+
+Nash barked toward the darkness.
+
+Sam stepped in front of everyone.
+
+\"What are Hunters?\" he asked.
+
+Ava swallowed.
+
+\"They aren't people.\"
+
+The room fell silent.
+
+Joseph slowly opened a storage cabinet and pulled out several flashlights.
+
+He handed one to Paxman and another to Sam.
+
+\"We're leaving. Now.\"
+
+The group hurried through a long hallway.
+
+The emergency lights flickered overhead.
+
+Suddenly...
+
+CLANG!
+
+Something slammed into a steel door.
+
+Everyone jumped.
+
+Another loud bang followed.
+
+The heavy door bent inward.
+
+Paxman tightened his grip on his flashlight.
+
+\"They're strong.\"
+
+Ava nodded.
+
+\"Very.\"
+
+\"They were built to track anyone who escapes Victor.\"
+
+Another crash echoed through the hallway.
+
+CRACK!
+
+The steel door burst open.
+
+Three large machines stepped into the corridor.
+
+Each one stood nearly eight feet tall.
+
+Their eyes glowed bright red.
+
+Metal claws scraped across the floor.
+
+\"They found us,\" Joseph whispered.
+
+The first Hunter let out a loud mechanical roar.
+
+It charged.
+
+\"Run!\" Sam shouted.
+
+The group sprinted down the hallway.
+
+The Hunters chased after them.
+
+Their heavy footsteps shook the floor.
+
+Nash stayed close beside Paxman.
+
+The hallway suddenly ended.
+
+Only one door stood in front of them.
+
+Joseph quickly entered a code.
+
+The keypad flashed red.
+
+ACCESS DENIED.
+
+\"Oh, no,\" Joseph muttered.
+
+The Hunters were getting closer.
+
+Sam looked around.
+
+\"Move!\"
+
+He planted his feet against the wall.
+
+With all his strength, he slammed his shoulder into the door.
+
+BOOM!
+
+It didn't move.
+
+The Hunters were only a few feet away now.
+
+Paxman took a deep breath.
+
+A blast of freezing air shot across the hallway.
+
+Ice spread over the floor.
+
+The first Hunter slipped.
+
+It crashed into the other two.
+
+The machines tumbled into a tangled pile.
+
+\"Again!\" Joseph yelled.
+
+Sam charged the door one more time.
+
+CRASH!
+
+This time the hinges snapped.
+
+The door flew open.
+
+Everyone rushed inside.
+
+Joseph slammed the emergency lock.
+
+THUD!
+
+One of the Hunters hit the door from the other side.
+
+Then another.
+
+The thick steel door shook violently.
+
+\"It won't hold forever,\" Ava warned.
+
+Paxman looked around the room.
+
+It wasn't another hallway.
+
+It was an enormous underground train station.
+
+An old train sat quietly on the tracks.
+
+Dust covered every window.
+
+Joseph smiled.
+
+\"I almost forgot this was here.\"
+
+Sam looked at him.
+
+
+
+\"Please tell me it still works.\"
+
+Joseph grinned.
+
+\"There's only one way to find out.\"
+
+He climbed into the driver's seat and pressed the power button.
+
+For a moment...
+
+Nothing happened.
+
+Then the lights flickered on.
+
+The engine rumbled to life.
+
+Outside, the Hunters slammed into the door again.
+
+A long crack spread across the steel.
+
+The lock was beginning to fail."}, {"n": 6, "title": "The Underground Railway", "body": "The crack in the steel door grew wider.
+
+THUD!
+
+THUD!
+
+The Hunters slammed into it again.
+
+\"The door's giving way!\" Sam shouted.
+
+Joseph pushed another switch.
+
+The train lights flickered brighter.
+
+With a loud rumble, the engine came to life.
+
+\"It still works!\" Joseph said with a grin.
+
+\"Everyone aboard!\"
+
+Paxman helped Ava climb inside while Sam whistled for Nash.
+
+Nash leaped through the doorway just as another deafening crash echoed through the station.
+
+CRACK!
+
+The steel door split down the middle.
+
+One of the Hunters forced its claw through the opening.
+
+Its glowing red eyes locked onto the train.
+
+\"There they are!\" Ava cried.
+
+Joseph pulled the throttle.
+
+The train lurched forward.
+
+Slowly at first...
+
+Then faster.
+
+The Hunters burst through the shattered door.
+
+They sprinted after the train, their heavy footsteps echoing through the tunnel.
+
+One of them jumped.
+
+Its metal claws grabbed the back railing of the last train car.
+
+\"It's on!\" Paxman shouted.
+
+The Hunter began pulling itself onto the train.
+
+Sam ran toward it.
+
+The machine swung one of its massive arms.
+
+WHOOSH!
+
+Sam ducked just in time.
+
+The claw sliced through a handrail instead.
+
+Sam grabbed the Hunter by the shoulders.
+
+\"Let's see who's stronger!\"
+
+The Hunter pushed back with incredible force.
+
+For a moment, neither of them moved.
+
+Then Sam let out a yell.
+
+He lifted the giant machine over his head.
+
+\"What?!\" Ava gasped.
+
+With one mighty throw, Sam hurled the Hunter off the train.
+
+It crashed into the tunnel wall behind them."}], "available": true}, {"id": 6, "tag": "Book 6", "title": "The Clone", "chapters": [{"n": 1, "title": "THE CABINET", "body": "Sam sat alone at the kitchen table, slowly eating a plate of bacon.
+
+It was only 8:00 p.m., but the house felt strangely quiet.
+
+Nash was asleep nearby, curled up comfortably in his bed. Everything seemed normal.
+
+But Sam didn't feel normal.
+
+He kept thinking about Paxman.
+
+His brother was gone—or at least, that's what Sam believed.
+
+Sam looked down at the table. His eyes became heavy with sadness as memories of Paxman came rushing back.
+
+He reached over and picked up a photo sitting beside him.
+
+It was a picture of him and Paxman together.
+
+Sam stared at it for a long moment.
+
+\"I miss you, Pax,\" he whispered. He slowly put the photo back down. Then he reached for another piece of bacon.
+
+But before he could eat it—
+
+SNATCH!
+
+The bacon disappeared from his hand.
+
+Sam froze.
+
+\"What?\"
+
+He looked around the kitchen.
+
+Nash was still asleep.
+
+Sam looked at Nash, then at the empty space where his bacon had been.
+
+\"It wasn't you, Nash.\"
+
+Nash didn't even wake up.
+
+Sam slowly stood from his chair.
+
+\"Okay... that's weird.\"
+
+He looked underneath the table.
+
+Nothing.
+
+He checked behind the chairs.
+
+Nothing.
+
+Then he heard a tiny sound.
+
+Creeeeak...
+
+Sam turned toward the kitchen cabinets.
+
+One of the cabinet doors was slowly moving.
+
+His eyes widened.
+
+\"What the—?\"
+
+Suddenly—
+
+SLAM!
+
+The cabinet door crashed shut.
+
+Sam jumped.
+
+\"AH!\"
+
+He stumbled backward and immediately ran out of the kitchen.
+
+He rushed down the hallway and into his bedroom, shutting the door behind him.
+
+He stood there for a moment, breathing heavily.
+
+\"It was just a cabinet,\" he told himself.
+
+But he knew that wasn't what scared him.
+
+Something had taken his bacon.
+
+And then the cabinet had slammed shut.
+
+Sam climbed into bed, but he couldn't stop thinking about it.
+He stared at the ceiling.
+
+What was in that kitchen?
+
+He thought about going back downstairs.
+
+Then he shook his head.
+
+\"Nope.\"
+
+He pulled the blankets up and tried to forget about it.
+
+Maybe it was nothing.
+
+Maybe he had imagined it.
+
+But deep down, Sam knew something had happened.
+
+And he decided he should keep it to himself.
+
+He didn't know that just a few feet away, behind the cabinet door, there was a hidden room.
+
+And inside that room...
+
+Paxman was still alive."}, {"n": 2, "title": "THE SECRET ROOM", "body": "The next morning, Sam walked into the kitchen.
+
+He still couldn't stop thinking about what had happened the night before.
+
+The bacon.
+
+The strange noise.
+
+And most of all, the cabinet door.
+
+Sam tried to forget about it as he picked up a stack of dishes.
+
+He began putting them away one by one.
+
+Plate.
+
+Bowl.
+
+Cup.
+
+Then he reached for the last dish.
+
+Sam opened the cabinet.
+
+He froze.
+
+Something was moving inside.
+
+A flap was flapping around wildly, as if something behind it was trying to get through.
+
+Sam stared at it.
+
+\"What is that?\"
+
+The flap suddenly stopped.
+
+Sam blinked.
+
+\"I must be dreaming.\"
+
+He rubbed his eyes and looked again.
+
+The flap was still there.
+
+Slowly, Sam reached forward and grabbed it.
+
+He pulled it open.
+
+And then he saw him.
+
+Sam's eyes widened.
+
+Standing inside the hidden room was...
+
+Paxman.
+
+He was sitting at a desk covered with papers, books, and strange equipment. He was completely focused on his research.
+
+Sam couldn't believe what he was seeing.
+
+Paxman was alive.
+
+\"PAXMAN?!\"
+
+Sam screamed.
+
+Paxman looked up.
+
+Sam stumbled backward in shock.
+
+\"No way!\"
+
+Paxman stared at his brother.
+
+\"Sam?\"
+
+Sam couldn't move.
+
+His mind was racing.
+
+He had seen Paxman die.
+
+So how was he standing right there?
+
+Then Sam noticed what was written across the papers on the desk.
+
+CLONING FOOD.
+
+Sam stared at the words.
+
+\"What are you doing?\"
+
+Paxman quickly turned toward his research.
+
+\"Sam, I can explain.\"
+
+Sam's mouth dropped open.
+
+Before he could say another word—
+
+Sam woke up.
+
+He sat straight up in bed.
+
+He looked around.
+
+His room was quiet.
+
+Nash was sleeping nearby.
+
+Sam breathed heavily.
+
+He looked at the clock.
+
+It was morning.
+
+Sam put his hand over his face.
+
+\"It was just a dream...\"
+
+He slowly got out of bed.
+
+But little did Sam know...
+
+That dream was about to become reality."}, {"n": 3, "title": "THE VISION", "body": "Sam couldn't stop thinking about his dream.
+
+It felt too real.
+
+He could still remember opening the strange flap inside the cabinet.
+
+He could still remember seeing Paxman.
+
+And he could still remember the words on the papers.
+
+CLONING FOOD.
+
+Sam finally decided he had enough.
+
+He got out of bed and walked down the hallway to his dad's room.
+
+\"Dad?\"
+
+His dad looked up.
+
+\"What's wrong?\"
+
+\"I had the weirdest dream last night.\"
+
+Sam told him everything. He explained the cabinet, the secret room, the flap, and most importantly, Paxman.
+
+His dad listened carefully.
+
+When Sam finished, his dad shook his head.
+
+\"Sam, that's nonsense. It was just a dream.\"
+
+\"But it felt real.\"
+
+\"Dreams can feel real sometimes.\"
+
+Sam sighed.
+
+\"Okay...\"
+
+He walked back to the kitchen.
+
+If his dad didn't believe him, then he was on his own.
+
+Sam thought for a moment.
+
+Then he got an idea.
+
+He prepared a plate full of bacon and placed it on the kitchen table.
+
+\"If something really is taking bacon...\" Sam whispered, \"this should work.\"
+
+He waited.
+
+Then he looked at the plate.
+
+He couldn't resist.
+
+Sam grabbed a piece.
+
+\"One won't hurt.\"
+
+He thought for a second.
+
+\"Maybe two.\"
+
+He ate another piece and quickly put the plate back where it was.
+
+Then he waited.
+
+Nothing happened.
+
+A few minutes passed.
+
+Sam was beginning to think his dad was right.
+
+Maybe it really had been a dream.
+
+Then—
+
+Creeeeak...
+
+Sam's head snapped toward the cabinet.
+
+The cabinet door slowly opened.
+
+Sam's eyes widened.
+
+He didn't move.
+
+The door opened farther.
+
+Sam knew it now.
+
+What he had seen wasn't a dream.
+
+It was a vision.
+
+He quietly waited beside the kitchen table.
+
+Something moved behind the cabinet.
+
+Sam took a deep breath.
+
+Then he slowly walked toward it.
+
+He reached the cabinet.
+
+His heart was pounding.
+
+Sam grabbed the flap and pulled it open.
+
+He stepped inside.
+
+Everything was exactly as he remembered.
+
+The hidden room.
+
+The desk.
+
+The papers.
+
+The strange equipment.
+
+And then—
+
+He saw him.
+
+Paxman.
+
+He was sitting at the desk, doing research.
+
+Sam froze.
+
+It was exactly like his vision.
+
+Paxman looked up.
+
+\"Sam?\"
+
+Sam stared at him in disbelief.
+
+\"Paxman...\"
+
+Paxman stood up.
+
+For a moment, neither brother said anything.
+
+Sam couldn't believe it.
+
+His vision had come true.
+
+Paxman was alive.
+
+And now Sam needed to know why."}, {"n": 4, "title": "THE TRUTH", "body": "Sam stood in the secret room, staring at Paxman.
+
+His mind was filled with questions.
+
+\"Why?\" Sam finally asked. \"Why did you make a clone?\"
+
+Paxman looked down.
+
+\"I was under too much stress,\" he said. \"I couldn't handle everything that was happening. So I made a clone to do some of the things I couldn't.\"
+
+Sam stared at him in disbelief.
+
+\"You made a clone because you were stressed?\"
+
+Paxman nodded.
+
+\"And you sent the clone out there instead of telling me?\"
+
+Sam's voice grew louder.
+
+\"Well, you could've at least told your brother, Paxman!\"
+
+Paxman looked hurt.
+
+\"I thought you would make fun of me.\"
+
+Sam's anger faded for a moment.
+
+\"What?\"
+
+\"I remember what happened at the orphanage,\" Paxman said. \"All the kids would make fun of me when I told them about how I figured out how to clone things.\"
+
+He looked away.
+
+\"They laughed at me. They thought I was weird.\"
+
+Paxman looked back at Sam.
+
+\"And I thought you might do the same thing.\"
+
+Sam couldn't believe what he was hearing.
+
+After everything they had been through together, Paxman still thought Sam would treat him like those kids did.
+
+Sam shook his head.
+
+Then, without saying another word, he turned and ran.
+
+He rushed out of the secret room and down the hallway.
+
+Tears filled his eyes.
+
+\"I thought you knew me better than that!\" Sam cried.
+
+He stopped for a moment and looked back.
+
+\"After all those dreadful years in the wild, you still think I would do that?\"
+
+Paxman stood in the doorway.
+
+Tears were running down his face.
+
+\"If I could do it again...\" Paxman said quietly, \"I would tell you.\"
+
+Sam wiped his eyes.
+
+\"I don't wanna hear about it.\"
+
+Then he ran away.
+
+Paxman remained standing in the doorway, watching his brother disappear.
+
+For the first time since returning home, Paxman wondered if bringing himself back had only made everything worse."}, {"n": 5, "title": "THE AGENTS", "body": "Paxman knew things had to change.
+
+He didn't want to keep secrets from Sam anymore.
+
+So he started telling him everything.
+
+He showed Sam his research, explained his ideas, and told him about all the things he had been working on.
+
+At first, Sam was still upset.
+
+But little by little, he began to understand.
+
+Paxman wasn't trying to hurt him.
+
+He was just scared.
+
+Eventually, Sam finally forgave him.
+
+\"Okay, Pax,\" Sam said. \"We're good.\"
+
+Paxman smiled.
+
+\"Thanks, Sam.\"
+
+But before they could say anything else—
+
+Paxman looked at one of the security cameras.
+
+His smile disappeared.
+
+\"Sam...\"
+
+\"What?\"
+
+\"Look outside.\"
+
+Sam rushed over to the screen.
+
+There were several people standing in their front yard.
+
+They weren't neighbors.
+
+They were agents.
+
+\"Oh no,\" Paxman said.
+
+\"What do we do?\" Sam whispered.
+
+\"Hide!\"
+
+The brothers quickly climbed into the secret room and pulled the cabinet shut behind them.
+
+A few seconds later—
+
+BANG!
+
+The front door was kicked open.
+
+Sam jumped.
+
+The agents stormed into the house.
+
+\"Search every room!\" one of them ordered.
+
+Sam and Paxman stayed completely silent.
+
+Inside the secret room, Paxman pulled up the security cameras.
+
+They watched the agents search the house.
+
+One agent walked through the kitchen.
+
+Sam held his breath.
+
+The agent stopped.
+
+He looked around.
+
+Then he walked away.
+
+Paxman switched between the cameras as the agents continued searching.
+
+\"They're getting closer,\" Sam whispered.
+
+\"Stay quiet,\" Paxman replied.
+
+The agents searched upstairs.
+
+Then downstairs.
+
+They checked the living room, the kitchen, and every bedroom.
+
+Finally, one of the agents walked back toward the front door.
+
+\"There's nobody here,\" he said.
+
+Another agent nodded.
+
+\"Let's search the next house.\"
+
+The front door closed.
+
+The house became quiet again.
+
+Sam and Paxman waited.
+
+Neither brother moved.
+
+Finally, Paxman slowly opened the cabinet.
+
+Sam peeked outside.
+
+The agents were gone.
+
+But Paxman knew one thing for sure.
+
+They weren't safe.
+
+Not anymore."}, {"n": 6, "title": "THE CALL", "body": "Paxman and Sam sat in the secret room, trying to figure out what to do next.
+
+\"We have to leave,\" Paxman said.
+
+Sam shook his head.
+
+\"No. I'm staying.\"
+
+\"Sam, the agents know we're here.\"
+
+\"I don't care. I'm not leaving Dad.\"
+
+Paxman sighed.
+
+\"I didn't want to tell you this, but I think Dad keeps ratting us out.\"
+
+Sam stared at him.
+
+\"Oh, there you are again,\" Sam said angrily. \"Not telling me what's happening.\"
+
+\"Sam, I'm just trying to keep us safe.\"
+
+\"You know what? I'm staying. You can leave, but I'm not. I will stay. Dad is not going to tell those agents where we are. If you think he is, maybe you should leave.\"
+
+Paxman looked at him.
+
+\"Well... maybe I will.\"
+
+The room became silent.
+
+Neither brother said another word.
+
+The next morning, Paxman started packing.
+
+Sam stood nearby, watching him put his things into a bag.
+
+\"So you're really leaving?\" Sam asked.
+
+Paxman didn't answer.
+
+He continued packing.
+
+Sam looked away.
+
+Then he heard something.
+
+A quiet voice came from down the hallway.
+
+Sam stopped.
+
+It was his dad.
+
+He was on the phone.
+
+Sam moved closer to listen.
+
+His dad spoke quietly.
+
+\"Yes... they're here.\"
+
+Sam's eyes widened.
+
+He froze.
+
+Paxman was right.
+
+Their dad had told someone where they were.
+
+Sam slowly turned toward Paxman.
+
+\"We have a problem.\""}, {"n": 7, "title": "THE PRISON", "body": "Sam and Paxman didn't have much time.
+
+They grabbed their things and left the house as quickly as they could.
+
+But the moment they stepped outside, everything went wrong.
+
+A police car suddenly came speeding around the corner.
+
+\"RUN!\" Paxman yelled.
+
+Sam took off.
+
+He ran down one street, turned another corner, and then changed directions again.
+
+\"Where do I go?\" Sam shouted.
+
+The police car followed him.
+
+Sam ran every which way, trying to lose them.
+
+But eventually, he was caught.
+
+The officers grabbed Sam and put him inside the police car.
+
+Paxman saw what happened.
+
+\"Sam!\"
+
+Paxman took off running after the car.
+
+He took a deep breath and used his heat breath.
+
+A blast of heat shot toward the police car.
+
+The car slowed down.
+
+Sam looked around from inside.
+
+He knew he couldn't just sit there.
+
+He remembered his super strength.
+
+\"Okay... let's do this.\"
+
+Sam clenched his fist and punched the car door with all his strength.
+
+BANG!
+
+The door flew open.
+
+Sam hopped out.
+
+\"Go, Pax!\"
+
+Paxman jumped into action, but he tripped on a bump.
+
+\"Pax!\"
+
+Sam ran over and tried to help him up.
+
+Then suddenly—
+
+A masked cop appeared behind them.
+
+Before either brother could react, the officer grabbed them and snapped strange power-zapping handcuffs onto their wrists.
+
+ZAP!
+
+Sam jumped.
+
+\"What was that?!\"
+
+\"Power handcuffs,\" the masked cop said.
+
+Paxman looked at the strange handcuffs.
+
+\"We didn't do anything!\"
+
+The cop didn't answer.
+
+The brothers were put back into the police car.
+
+This time, they couldn't escape.
+
+The car drove for what seemed like hours.
+
+Neither brother knew where they were going.
+
+Finally, the car stopped.
+
+Sam looked out the window.
+
+His eyes widened.
+
+\"No way...\"
+
+Paxman looked out too.
+
+A massive, dark prison stood in front of them.
+
+Paxman stared at it.
+
+\"Is that...?\"
+
+\"Yeah,\" Sam whispered.
+
+Azkaban.
+
+The prison everyone thought only existed in the Harry Potter books.
+
+Except this place was real.
+
+And Azkaban was already scary enough without soul-sucking demons as guards.
+
+The brothers were taken out of the car and led inside.
+
+The enormous doors opened.
+
+CREEEEAK...
+
+Sam looked around.
+
+The halls were dark and silent.
+
+They passed rows of prison cells.
+
+Some of the prisoners had been sent there for terrible crimes, including torture and murder.
+
+Sam looked at Paxman.
+
+\"This place is insane.\"
+
+Paxman nodded.
+
+\"I know.\"
+
+A guard led them farther down the hallway.
+
+Sam looked back toward the entrance.
+
+The massive prison doors slowly closed behind them.
+
+BOOM!
+
+Sam swallowed.
+
+\"We're trapped.\"
+
+Paxman looked at his brother.
+
+\"Not for long.\"
+
+Sam raised an eyebrow.
+
+\"What are you planning?\"
+
+Paxman looked around the prison.
+
+\"I'm still thinking.\"
+
+The doors behind them locked.
+
+CLICK.
+
+The brothers looked at each other.
+
+They were officially prisoners of Azkaban."}, {"n": 8, "title": "THE ESCAPE", "body": "Paxman and Sam stood in the dark hallway of Azkaban.
+
+Neither brother knew what to do.
+
+Then Paxman spotted something on the ground.
+
+He bent down and picked it up.
+
+It was a wand.
+
+Paxman looked at Sam.
+
+\"You thinking what I'm thinking?\"
+
+Sam looked at the wand.
+
+\"Let's use this to get out of here.\"
+
+Paxman grinned.
+
+He pointed the wand toward the prison bars.
+
+\"Bombarda Maxima!\"
+
+BOOM!
+
+The bars burst open.
+
+Sam jumped back.
+
+\"Whoa!\"
+
+Paxman looked at the opening.
+
+\"Okay, let's run!\"
+
+The brothers took off down the hallway."}], "available": true}];
+let currentBook=null,currentChapter=0,fontSize=Number(localStorage.getItem('tgs-font')||20);
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function renderLibrary(){const grid=document.getElementById('bookGrid');grid.innerHTML=books.map(b=>`<article class="book"><div class="cover b${b.id}"><div><div class="coverTitle">TWO GUYS STRANDED</div><div class="coverBook">${esc(b.tag)}</div></div><div><div class="coverSub">${esc(b.title)}</div><div class="coverAuthor">PAXMAN GADD</div></div></div><h3>${esc(b.tag)} — ${esc(b.title)}</h3><p>${b.id===6?'The Clone':b.id===5?'The Final Odyssey':'Adventure chapter book'}</p><button class="read" onclick="openBook(${b.id})">Read</button></article>`).join('')}
+function parseLegacy(b){return b.chapters.map((t,i)=>({n:i+1,title:t,body:''}))}
+function openBook(id){currentBook=books.find(b=>b.id===id);currentChapter=Number(localStorage.getItem('tgs-last-'+id)||0);document.getElementById('app').style.display='none';document.getElementById('reader').style.display='block';document.body.scrollTop=0;buildReader()}
+function buildReader(){const ch=currentBook.chapters||[];document.getElementById('readerBook').textContent=currentBook.tag+' — '+currentBook.title;const sel=document.getElementById('chapterSelect');sel.innerHTML=ch.map((c,i)=>`<option value="${i}">Chapter ${c.n||i+1} — ${esc(c.title)}</option>`).join('');renderChapter()}
+function renderChapter(){const ch=currentBook.chapters||[];if(!ch.length)return;currentChapter=Math.max(0,Math.min(currentChapter,ch.length-1));const c=ch[currentChapter];document.getElementById('chapterSelect').value=String(currentChapter);document.getElementById('chapterHeading').textContent='Chapter '+(c.n||currentChapter+1);document.getElementById('chapterSub').textContent=c.title;const text=document.getElementById('chapterText');text.textContent=c.body||'This chapter is listed from the manuscript supplied in chat. Full text is not embedded in this file yet.';text.style.fontSize=fontSize+'px';document.getElementById('prevBtn').disabled=currentChapter===0;document.getElementById('nextBtn').disabled=currentChapter===ch.length-1;document.getElementById('progress').style.width=((currentChapter+1)/ch.length*100)+'%';document.getElementById('status').textContent='Chapter '+(currentChapter+1)+' of '+ch.length;localStorage.setItem('tgs-last-'+currentBook.id,currentChapter)}
+function goToChapter(i){currentChapter=i;renderChapter();window.scrollTo({top:0,behavior:'smooth'})}function nextChapter(){if(currentChapter<(currentBook.chapters.length-1)){currentChapter++;renderChapter();window.scrollTo({top:0,behavior:'smooth'})}}function previousChapter(){if(currentChapter>0){currentChapter--;renderChapter();window.scrollTo({top:0,behavior:'smooth'})}}function changeFont(n){fontSize=Math.max(15,Math.min(30,fontSize+n));localStorage.setItem('tgs-font',fontSize);renderChapter()}function closeReader(){document.getElementById('reader').style.display='none';document.getElementById('app').style.display='block';window.scrollTo({top:0,behavior:'smooth'})}
 renderLibrary();
-
-
-setTimeout(()=>{
-
-  document.getElementById("intro").style.display="none";
-
-  document.getElementById("app").style.display="block";
-
-},3200);
-
 </script>
-
-</body>
-</html>
+</body></html>
